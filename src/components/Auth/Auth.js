@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class Auth extends Component {
   constructor(){
@@ -10,12 +11,58 @@ class Auth extends Component {
     }
   }
 
+  componentDidMount(){
+    this.checkUser();
+  }
+
+  checkUser = async () => {
+    const {id} = this.props;
+    if(!id){
+      try{
+        let res = await axios.get('/api/current');
+        this.props.updateUser(res.data)
+        this.props.history.push('/dashboard')
+      } catch(err){}
+    } else {
+      this.props.history.push('/dashboard')
+    }
+  }
+
   handleChange(prop, val){
     this.setState({
       [prop]: val
     })
   }
 
+  register = async () => {
+    let user = {
+      username: this.state.username,
+      password: this.state.password
+    }
+    try {
+      let res = await axios.post('/auth/register', user)
+      this.props.updateUser(res.data);
+      this.props.history.push('/dashboard')
+    } catch(err) {
+      console.log(err)
+      // alert('This username is taken')
+    }
+  }
+
+  login = async () => {
+    let user = {
+      username: this.state.username,
+      password: this.state.password
+    }
+    try {
+      let res = await axios.post('/auth/login', user);
+      // console.log(res)
+      this.props.updateUser(res.data);
+      this.props.history.push('/dashboard')
+    } catch(err) {
+      alert('Invalid login credentials');
+    }
+  }
 
   render() {
     const { username, password } = this.state;
@@ -33,8 +80,8 @@ class Auth extends Component {
           type='password' 
           onChange={ e => this.handleChange('password', e.target.value) } 
         />
-        <button>Login</button>
-        <button>Register</button>
+        <button onClick={ this.login }>Login</button>
+        <button onClick={ this.register }>Register</button>
       </div>
     );
   }

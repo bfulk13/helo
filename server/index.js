@@ -26,3 +26,4 @@ massive(CONNECTION_STRING)
     app.listen(SERVER_PORT, () => console.log(`${SERVER_PORT} birds flying high!`))
 })
 
+app.post('/auth/register', ctrl.register);
