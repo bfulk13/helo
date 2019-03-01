@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { updateUser } from '../../ducks/reducer';
 
 class Auth extends Component {
   constructor(){
@@ -87,4 +89,6 @@ class Auth extends Component {
   }
 }
 
-export default Auth;
+
+
+export default connect(null, {updateUser})(Auth);

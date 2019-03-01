@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { updateUser } from '../../ducks/reducer';
 
 function Nav(props){
   // console.log(props)
@@ -19,13 +18,11 @@ function Nav(props){
 }
 
 const mapStateToProps = (reduxState) => {
+  const {username, img} = reduxState;
   return {
-    id: reduxState.id
+    username: reduxState.username,
+    img: reduxState.img
   }
 }
 
-const mapDispatchToProps = {
-  updateUser
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Nav);
+export default connect(mapStateToProps)(Nav);
