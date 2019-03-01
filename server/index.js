@@ -3,7 +3,8 @@ const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const massive = require('massive');
-const ctrl = require('./controller');
+const ac = require('./controller');
+const pc = require('./postCtrl');
 
 const { SERVER_PORT, SESSION_SECRET, CONNECTION_STRING } = process.env
 
@@ -26,8 +27,15 @@ massive(CONNECTION_STRING)
     app.listen(SERVER_PORT, () => console.log(`${SERVER_PORT} birds flying high!`))
 })
 
-app.post('/auth/register', ctrl.register);
-app.post('/auth/login', ctrl.login);
-app.post('/auth/logout', ctrl.logout);
+// USERS
+app.post('/auth/register', ac.register);
+app.post('/auth/login', ac.login);
+app.post('/auth/logout', ac.logout);
+app.get('/api/current', ac.getUser)
 
-app.get('/api/current', ctrl.getUser)
+// POSTS
+app.get('/api/posts', pc.getAllPosts);
+app.get('/api/post/:id', pc.getPost);
+app.post('/api/post', pc.addPost);
+app.delete('/api/post/:id', pc.deletePost);
+app.put('/api/post/:id', pc.updatePost);
