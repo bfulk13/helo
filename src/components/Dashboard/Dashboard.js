@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Dashboard.css';
+import { connect } from 'react-redux';
 
 class Dashboard extends Component {
   constructor(){
@@ -18,7 +19,16 @@ class Dashboard extends Component {
   }
 
   displayPosts = () => {
-    this.state.posts.map(post => post)
+    // this.state.posts.map(post => post)
+    axios.get('/api/posts').then(res => {
+      this.setState({ posts: res.data })
+    })
+  }
+
+  resetSearch = () => {
+    axios.get('/api/posts').then(res => {
+      this.setState({ posts: res.data })
+    })
   }
 
   toggleBox() {
@@ -42,4 +52,10 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+const mapStateToProps = (reduxState) => {
+  return {
+    id: reduxState.id
+  }
+}
+
+export default connect(mapStateToProps)(Dashboard);
