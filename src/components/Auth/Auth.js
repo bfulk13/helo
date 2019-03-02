@@ -37,6 +37,7 @@ class Auth extends Component {
   }
 
   register = async () => {
+    console.log(this.props.history)
     let user = {
       username: this.state.username,
       password: this.state.password
