@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Dashboard.css';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 class Dashboard extends Component {
   constructor(){
